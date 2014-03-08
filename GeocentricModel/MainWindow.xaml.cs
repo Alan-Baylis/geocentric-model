@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Data;
 
 namespace GeocentricModel
 {
@@ -18,7 +20,7 @@ namespace GeocentricModel
 		{
 			double dCenterCoordinate = Canvas.ActualHeight > Canvas.ActualWidth ? Canvas.ActualWidth/2 : Canvas.ActualHeight/2;
 			var center = new Point(dCenterCoordinate, dCenterCoordinate);
-			double orbitRadius = dCenterCoordinate - ParentOrbiter.Width/2 - 50;
+			double orbitRadius = dCenterCoordinate - ParentOrbiter.Width/2 - Height*(5/83.0);
 			_orbiterEarth = new Orbiter.OrbiterWithChild(
 				Dispatcher,
 				Canvas,
@@ -30,4 +32,18 @@ namespace GeocentricModel
 			_orbiterEarth.StartOrbiting();
 		}
 	}
+
+	public class PercentageConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
 }
